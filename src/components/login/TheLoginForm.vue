@@ -1,8 +1,8 @@
 <template>
     <form>
-        <div class="form-control danger">
+        <div class="form-control">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Enter your email">
+            <input type="email" name="email" placeholder="Enter your email" v-model="email.val">
             <div class="error">
                 <p>Incorrect Email ID.</p>
             </div>
@@ -10,7 +10,7 @@
 
         <div class="form-control">
             <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Enter your password">
+            <input type="password" name="password" placeholder="Enter your password" v-model="password.val">
             <div class="error">
                 <p>Incorrect Email ID.</p>
             </div>
@@ -39,6 +39,21 @@ export default {
     components: {
         BaseButton,
         BaseFormInput
+    },
+    data() {
+        return {
+            email: {
+                val: '',
+                hasError: false,
+                error: '',
+            },
+            password : {
+                val: '',
+                hasError: false,
+                error: '',
+            },
+            hasError: false,
+        }
     }
 }
 </script>

@@ -3,7 +3,10 @@ import BaseCard from "@/components/ui/BaseCard.vue";
 import TheLoginForm from "@/components/login/TheLoginForm.vue";
 
 export default {
-    components: { BaseCard, TheLoginForm }
+    components: { BaseCard, TheLoginForm },
+    metaInfo: {
+        title: 'Login Page'
+    }
 }
 </script>
 
@@ -17,6 +20,13 @@ export default {
                     <TheLoginForm />
                 </BaseCard>
             </div>
+
+        <div class="profile">
+            <div class="image">
+                <img src="@/assets/images/bhanu.png" alt="" srcset="">
+            </div>
+            <p>This is a project created by <a href="https://www.linkedin.com/in/bhanukrsingh/" target="_blank">Bhanu Singh</a>.</p>
+        </div>    
         </div>
     </div>
 </template>
@@ -49,6 +59,39 @@ export default {
         text-align: center;
         color: var(--text-body);
         font-size: var(--text-size-body);
+        font-weight: 500;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+    }
+
+    .profile .image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        overflow: hidden;
+    }
+
+    .profile .image img {
+        object-fit: contain;
+        width: 100%;
+        height: auto;
+    }
+
+    .profile p {
+        font-size: 14px;
+        color: var(--primary-color);
+        font-weight: 500;
+        margin-top: 7px;
+    }
+
+    .profile p a {
+        text-decoration: none;
+        color: var(--primary-color);
         font-weight: 500;
     }
 </style>
