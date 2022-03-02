@@ -1,18 +1,18 @@
 <template>
-    <form>
-        <div class="form-control">
+    <form @submit.prevent="submit">
+        <div class="form-control" :class="{ error: v$.email.$errors.length }">
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="Enter your email" v-model="email.val">
-            <div class="error">
-                <p>Incorrect Email ID.</p>
+            <input type="text" name="email" placeholder="Enter your email" v-model="email">
+            <div class="error" v-for="error of v$.email.$errors" :key="error.$uid"> 
+                <p>{{ error.$message }}</p>
             </div>
         </div>
 
-        <div class="form-control">
+        <div class="form-control" :class="{ error: v$.password.$errors.length }">
             <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Enter your password" v-model="password.val">
-            <div class="error">
-                <p>Incorrect Email ID.</p>
+            <input type="password" name="password" placeholder="Enter your password" v-model="password">
+            <div class="error" v-for="error of v$.password.$errors" :key="error.$uid">
+                <p>{{ error.$message }}</p>
             </div>
         </div>
 
@@ -35,25 +35,49 @@
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseFormInput from '@/components/ui/BaseFormInput.vue'
 
+import useVuelidate from '@vuelidate/core'
+import { required, email, minLength } from '@vuelidate/validators'
+import { mapActions, mapGetters } from 'vuex';
+import router from '../../router';
+
 export default {
+    setup () {
+        return { 
+            v$: useVuelidate() 
+        }
+    },
     components: {
         BaseButton,
         BaseFormInput
     },
     data() {
         return {
-            email: {
-                val: '',
-                hasError: false,
-                error: '',
-            },
-            password : {
-                val: '',
-                hasError: false,
-                error: '',
-            },
+            email: '',
+            password : '',
             hasError: false,
         }
+    },
+    methods: {
+        ...mapActions({
+            setUserData: 'setUserData'
+        }),
+        submit() {
+            this.v$.$touch();
+            if (this.v$.$error) return;
+            this.setUserData({
+                email: this.email,
+                password: this.password,
+            });
+            router.push({name: 'dashboard'});
+        }
+    },
+    validations () {
+        return {
+            email: { required, email },
+            password: { required, minLength : minLength(6) }
+        }
+    },
+    computed: {
     }
 }
 </script>
